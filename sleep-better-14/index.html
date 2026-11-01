@@ -15,12 +15,14 @@
 <header><div class="wrap hero"><div class="topline"><span class="mark" aria-hidden="true">☾</span> SLEEP BETTER 14 <span style="font-size:12px;color:#a6e5da">• รุ่นใช้ฟรี</span></div><h1>นอนดีขึ้น เริ่มจากรู้จักการนอนของเรา</h1><p>สมุดบันทึกการนอน 14 วัน พร้อมภารกิจเล็ก ๆ เพื่อสำรวจพฤติกรรมและปรับกิจวัตรอย่างเหมาะสม ไม่ต้องสมัครสมาชิก ไม่ต้องเสียเงิน</p><div class="pills"><span>✓ ฟรี 100%</span><span>✓ ใช้บนโทรศัพท์</span><span>✓ บันทึกในเครื่องคุณ</span><span>✓ ไม่จำเป็นต้องมี Smartwatch</span></div></div></header>
 <main><div class="nav" role="tablist" aria-label="เมนูหลัก"><button type="button" class="active" data-tab="home" role="tab" aria-selected="true">🏠 ภาพรวม</button><button type="button" data-tab="diary" role="tab" aria-selected="false">✍️ บันทึก</button><button type="button" data-tab="progress" role="tab" aria-selected="false">📈 แนวโน้ม</button><button type="button" data-tab="learn" role="tab" aria-selected="false">🌙 เรียนรู้</button></div>
 <section id="home" class="tab">
-<div class="panel" aria-label="เอกสารแจกฟรี">
-  <h3>📘 เอกสารสำหรับสมาชิก — ฟรี 100%</h3>
-  <p class="muted">เลือกใช้แบบออนไลน์ หรือเปิดสมุดบันทึกฉบับพิมพ์แล้วใช้คำสั่งพิมพ์ของเบราว์เซอร์เพื่อบันทึกเป็น PDF ได้ฟรี ไม่ต้องลงทะเบียนและไม่ต้องเสียเงิน</p>
+<div class="panel" aria-label="เริ่มบันทึกการนอนฟรี">
+  <h2>✍️ เริ่มบันทึกการนอนของคุณ</h2>
+  <p>กดปุ่ม <strong>กรอกข้อมูลการนอน</strong> เลือกวันที่ตื่นนอน กรอกข้อมูล แล้วกด <strong>บันทึกวันนี้</strong> ข้อมูลจะเก็บอยู่ในเบราว์เซอร์ของโทรศัพท์เครื่องนี้ คุณสามารถกลับมาแก้ไขและดูแนวโน้มได้</p>
   <div class="btnrow">
-    <a class="btn" style="display:inline-block;text-decoration:none" href="printable_journal.html" target="_blank" rel="noopener">เปิดสมุดบันทึกฉบับพิมพ์ / บันทึกเป็น PDF</a>
+    <button type="button" id="primaryRecord" class="btn">✍️ กรอกข้อมูลและบันทึกวันนี้</button>
+    <a class="btn secondary" style="display:inline-block;text-decoration:none" href="printable_journal.html?print=1" target="_blank" rel="noopener">📄 แบบพิมพ์ลงกระดาษ / PDF (ไม่ใช่แบบฟอร์ม)</a>
   </div>
+  <p class="caption">ฟรี 100% • ไม่ต้องเข้าสู่ระบบ • ไม่ต้องใช้นาฬิกา • แนะนำเปิดด้วย Chrome เพื่อเก็บข้อมูลได้ต่อเนื่อง</p>
 </div>
 <div class="panel"><div class="pagehead"><div><h2>ภารกิจพักผ่อน 14 วัน</h2><div class="muted" id="welcome">เริ่มต้นจากการบันทึกสั้น ๆ ในทุกเช้า</div></div><span class="pills"><span style="background:#e4f4f0;color:#006a63;border:0">ใช้เวลา 2 นาที/วัน</span></span></div><div class="summary"><div class="stat"><strong id="statDays">0/14</strong><span>วันที่บันทึก</span></div><div class="stat"><strong id="statAvg">—</strong><span>เวลานอนเฉลี่ย*</span></div><div class="stat"><strong id="statMood">—</strong><span>ความสดชื่นเฉลี่ย /5</span></div></div><div class="progress"><i id="progressBar" style="width:0%"></i></div><div class="caption" id="progressText">เริ่มบันทึกวันแรกได้เลย</div><div class="btnrow"><button class="btn" id="goRecord">+ บันทึกการนอน</button><button class="btn secondary" id="goLearn">ดูภารกิจและคำแนะนำ</button></div></div>
 <div class="panel"><h3>ภารกิจ 14 วันของคุณ</h3><p class="muted" style="font-size:14px">แตะวันที่มีบันทึกเพื่อเปิดดูและแก้ไขได้ วันที่แสดงตามลำดับจากวันเริ่มต้นของคุณ</p><div class="daygrid" id="dayGrid"></div><div class="task" id="todayTask"><strong>ภารกิจวันแรก</strong><div>เลือกเวลาตื่นที่เหมาะกับชีวิตประจำวัน และจดว่าตื่นมาแล้วรู้สึกอย่างไร</div></div></div>
@@ -63,7 +65,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(records));return tru
 function toast(s){$('toast').textContent=s;$('toast').classList.remove('hidden');clearTimeout(toast._t);toast._t=setTimeout(()=>$('toast').classList.add('hidden'),3200)}
 function showTab(id){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('hidden',e.id!==id));document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===id;b.classList.toggle('active',on);b.setAttribute('aria-selected',on?'true':'false')});window.scrollTo({top:0,behavior:'smooth'});if(id==='progress')renderProgress()}
 document.querySelectorAll('[data-tab]').forEach(el=>el.addEventListener('click',()=>showTab(el.dataset.tab)));
-$('goRecord').addEventListener('click',()=>{loadDate(isoToday());showTab('diary')});$('goLearn').addEventListener('click',()=>showTab('learn'));
+$('goRecord').addEventListener('click',()=>{loadDate(isoToday());showTab('diary')});$('primaryRecord').addEventListener('click',()=>{loadDate(isoToday());showTab('diary')});$('goLearn').addEventListener('click',()=>showTab('learn'));
 function minutes(hm){if(!/^\d\d:\d\d$/.test(hm||''))return null;const [h,m]=hm.split(':').map(Number);return h*60+m}
 function sleepMins(rec){const bed=minutes(rec.bedtime),wake=minutes(rec.waketime);if(bed===null||wake===null)return null;let inBed=wake-bed;if(inBed<=0)inBed+=1440;if(inBed>16*60||inBed<60)return null;let latency=(rec.latency===''||rec.latency==null)?0:Number(rec.latency);let awake=(rec.awakeMinutes===''||rec.awakeMinutes==null)?0:Number(rec.awakeMinutes);let sleep=inBed-latency-awake;return sleep>=0?sleep:null}
 function niceDuration(min){if(min===null)return '—';return `${Math.floor(min/60)} ชม. ${Math.round(min%60)} น.`}
@@ -87,7 +89,7 @@ $('backupBtn').addEventListener('click',()=>{download('sleep_better_14_backup.js
 $('restoreBtn').addEventListener('click',()=>$('restoreFile').click());
 $('restoreFile').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>2_000_000)throw Error('ไฟล์ใหญ่เกินไป');const data=JSON.parse(await file.text());if(data.version!==1||!data.records||Array.isArray(data.records)||typeof data.records!=='object')throw Error('รูปแบบไฟล์ไม่ถูกต้อง');const imported={};for(const [date,r] of Object.entries(data.records)){if(!validDate(date)||!r||r.date!==date||!Number.isInteger(Number(r.refresh))||Number(r.refresh)<1||Number(r.refresh)>5)continue;imported[date]={date,refresh:Number(r.refresh),bedtime:String(r.bedtime||'').slice(0,5),waketime:String(r.waketime||'').slice(0,5),latency:r.latency===''?'':Math.max(0,Math.min(600,Number(r.latency)||0)),awakenings:r.awakenings===''?'':Math.max(0,Math.min(30,Number(r.awakenings)||0)),awakeMinutes:r.awakeMinutes===''?'':Math.max(0,Math.min(720,Number(r.awakeMinutes)||0)),nap:r.nap===''?'':Math.max(0,Math.min(360,Number(r.nap)||0)),note:String(r.note||'').slice(0,500),caffeine:!!r.caffeine,screen:!!r.screen,exercise:!!r.exercise,routine:!!r.routine}}if(!Object.keys(imported).length)throw Error('ไม่พบบันทึกที่นำเข้าได้');if(confirm(`พบ ${Object.keys(imported).length} บันทึก ต้องการนำเข้าและแทนที่ข้อมูลที่มีอยู่หรือไม่?`)){records=imported;save();renderHome();renderProgress();loadDate(isoToday());toast('นำเข้าข้อมูลแล้ว')}}catch(err){toast('นำเข้าไม่สำเร็จ: '+err.message)}finally{e.target.value=''}});
 $('wipeBtn').addEventListener('click',()=>{if(confirm('ต้องการลบข้อมูลบันทึกทั้งหมดจากเบราว์เซอร์นี้อย่างถาวรใช่หรือไม่? แนะนำให้สำรองก่อน')){records={};save();renderHome();renderProgress();loadDate(isoToday());toast('ลบข้อมูลทั้งหมดแล้ว')}});
-renderLessons();loadDate(isoToday());renderHome();renderProgress();
+renderLessons();loadDate(isoToday());renderHome();renderProgress();if(location.hash==='#diary')showTab('diary');
 })();
 </script>
 </body></html>
